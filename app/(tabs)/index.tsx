@@ -89,7 +89,10 @@ export default function HomeScreen() {
   return (
     <ParallaxScrollView>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hai, Rizalramzi!</ThemedText>
+        <ThemedView  style={styles.hello}>
+          <ThemedText type="title">Hai, Rizalramzi!</ThemedText>
+          <HelloWave></HelloWave>
+        </ThemedView>
         <Text style={styles.paragraph}>Berita baru hari ini!</Text>
       </ThemedView>
       <View style={styles.breakingNewsContainer}>
@@ -97,11 +100,11 @@ export default function HomeScreen() {
         <TouchableOpacity style={styles.viewAllButton}>
           <Text style={styles.viewAllText}>View all</Text>
         </TouchableOpacity>
-        <ScrollView horizontal pagingEnabled style={styles.breakingNewsScroll}>
-          {steps.slice(0, 3).map((step, index) => (
-            <Image key={index} source={{ uri: step.image.uri }} style={styles.breakingNewsImage} />
-          ))}
-        </ScrollView>
+          <ScrollView horizontal style={styles.breakingNewsScroll}>
+            {steps.slice(0, 3).map((step, index) => (
+              <Image key={index} source={{ uri: step.image.uri }} style={styles.breakingNewsImage} />
+            ))}
+          </ScrollView>
         <ScrollView horizontal style={styles.categoryScroll}>
           <TouchableOpacity onPress={() => handleCategoryPress(null)}>
             <ThemedView style={selectedCategory === null ? styles.selectedCategoryButton : styles.categoryButton}>
@@ -147,10 +150,12 @@ export default function HomeScreen() {
           <View style={styles.modalView}>
             {selectedStep && (
               <>
-                <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <ScrollView>
                   <Image source={selectedStep.image} style={styles.modalImage} />
-                  <Text style={styles.modalText}>{selectedStep.name}</Text>
-                  <Text style={styles.modalDescription}>{selectedStep.descriptionText}</Text>
+                    <Text style={styles.modalText}>{selectedStep.name}</Text>
+                  <ScrollView>
+                    <Text style={styles.modalDescription}>{selectedStep.descriptionText}</Text>
+                  </ScrollView>
                 </ScrollView>
                 <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
                   <Text style={styles.closeButtonText}>Close</Text>
@@ -168,6 +173,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     padding: 16,
+  },
+  hello: {
+    flexDirection: 'row',
   },
   paragraph: {
     color: 'white'
@@ -221,7 +229,7 @@ const styles = StyleSheet.create({
   stepContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
@@ -287,9 +295,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   modalDescription: {
-    fontSize: 16,
+    fontSize: 12,
     marginTop: 10,
-    textAlign: 'center',
   },
   closeButton: {
     marginTop: 20,
